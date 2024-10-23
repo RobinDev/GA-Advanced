@@ -22,3 +22,4 @@
 - [FrontEnd] Hide the tidio chat
 - [FrontEnd] Hide the toolbar except _Raccourcis_
 - [Backend] Always show the save button fixed at bottom-left
+- [BackEnd] MultiSeledt Resizable

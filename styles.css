@@ -10,6 +10,11 @@ input[data-drupal-selector='edit-submit']:not(.region-sticky input) {
   z-index: 9999999999;
 }
 
+/** [BackEnd] MultiSeledt Resizable */
+select[multiple] {
+  resize: both;
+}
+
 /** [FrontEnd] Hide the toolbar except *Raccourcis* */
 .gin-secondary-toolbar.gin-secondary-toolbar--frontend div.toolbar-id--toolbar-icon-shortcut {
   visibility: visible;
