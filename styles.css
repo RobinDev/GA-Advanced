@@ -1,7 +1,6 @@
 /** [Backend] Always show the save button fixed at bottom-left */
 input[data-drupal-selector='edit-actions-submit'],
-input[data-drupal-selector='edit-submit'],
-div[data-drupal-selector='edit-submit'] {
+input[data-drupal-selector='edit-submit']:not(.region-sticky input) {
   position: fixed;
   box-shadow:
     0 1px 3px 0 rgba(0, 0, 0, 0.1),
