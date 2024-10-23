@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES2021",
+        "checkJs": true,
+        "noEmit": true,
+        "types": [
+            "chrome"
+        ]
+    },
+    "typeAcquisition": {
+        "enable": true
+    },
+    "include": [
+        "**/*.js"
+    ],
+}

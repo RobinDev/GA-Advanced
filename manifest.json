@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "GA Advanced",
+  "version": "2.0",
+  "content_scripts": [
+    {
+      "matches": ["*://www.grandangle.fr/*", "*://grandangletours.com/*"],
+      "js": ["app.js"],
+      "css": ["styles.css"],
+      "run_at": "document_end",
+      "type": "module"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": ["<all_urls>"],
+      "resources": ["src/*"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["activeTab", "tabs", "contentSettings", "storage", "debugger", "scripting", "webNavigation"],
+  "action": {
+    "default_popup": "src/popup.html",
+    "default_icon": "icons/icon.png"
+  }
+}
