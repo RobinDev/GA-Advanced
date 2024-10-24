@@ -82,6 +82,8 @@ export default class BetterAdminUi {
       if (href.includes('/revisions')) return
       if (href.includes('/translations')) return
 
+      console.log(href)
+
       if (
         !document.URL.includes('/admin/structure/menu') &&
         ['activite=', 'saisons=', 'duree=', 'thematique=', 'niveau=', 'itinerance=', 'voyage='].some((keyword) => href.includes(keyword)) &&
@@ -101,16 +103,23 @@ export default class BetterAdminUi {
 
       const fetchCache = await this.fetchCache(href)
       if (fetchCache && fetchCache === true) {
+        console.log(fetchCache)
         return // on ne check pas les URLs qui fonctionnaient il y a moins de 24h
       }
 
       fetch(href, {
         method: 'HEAD',
+        redirect: link.getAttribute('data-entity-substitution') ? 'follow' : 'manual',
         credentials: 'omit', // Empêche l'envoi des cookies, comme si on était déconnecté
       })
         .then((response) => {
-          if (response.status >= 300 && response.status < 600) this.setLinkDead(href, link)
-          else this.updateFetchCache(href, true)
+          if (response.status !== 200) {
+            console.log(response.status)
+            this.setLinkDead(href, link)
+          } else {
+            console.log(href + ' ' + response.status)
+            this.updateFetchCache(href, true)
+          }
         })
         .catch((error) => {
           this.setLinkDead(href, link)
