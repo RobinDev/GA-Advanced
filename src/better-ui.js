@@ -1,8 +1,9 @@
 import { getHTMLElement } from './helper.js'
 import MenuManagerBeautifer from './menu-manager-beautifer.js'
 
-export default class BetterAdminUi {
+export default class BetterUi {
   constructor() {
+    console.log('- better ui')
     this.unobfuscate()
     if (document.querySelector('table#menu-overview tbody tr')) new MenuManagerBeautifer()
     this.showDeadLinks()
@@ -45,27 +46,29 @@ export default class BetterAdminUi {
     return fetchCache[url]
   }
 
-  updateFetchCache(url, status) {
-    chrome.storage.local.get(['fetchCache'], (result) => {
-      const fetchCache = result.fetchCache || {}
-      fetchCache[url] = status
-      chrome.storage.local.set({ fetchCache: fetchCache })
-    })
+  async updateFetchCache(url, status) {
+    const fetchCache = (await chrome.storage.local.get(['fetchCache'])).fetchCache || {}
+    fetchCache[url] = status
+    await chrome.storage.local.set({ fetchCache: fetchCache })
   }
 
   showDeadLinks() {
+    if (document.URL.includes('/voyageur/')) return
+    if (document.URL.includes('/user/')) return
+
     // Sélectionner tous les liens sur la page
     const links = document.querySelectorAll('a')
 
     links.forEach(async (link) => {
       let href = link.href
-      if (!href) return
+      if (!href || href === '' || href.startsWith('#')) return
       if (href.includes('#comments')) return
       href = link.href.split('#')[0]
       if (!(href.includes('grandangle.fr') || href.includes('grandangle2023') || href.includes('grandangletours.com'))) return
       if (href.includes('facebook.com')) return
       if (href.includes('/webmaster/')) return
       if (href.includes('/user/')) return
+      if (href.includes('/sites/')) return
       if (href.includes('/product/')) return
       if (href.includes('/token/')) return
       if (href.includes('/run-cron')) return
@@ -83,6 +86,8 @@ export default class BetterAdminUi {
       if (href.includes('/delete')) return
       if (href.includes('/revisions')) return
       if (href.includes('/translations')) return
+      if (href.endsWith('/user')) return
+      if (href.endsWith('/home')) return
 
       if (
         !document.URL.includes('/admin/structure/menu') &&
@@ -113,10 +118,9 @@ export default class BetterAdminUi {
       })
         .then((response) => {
           if (response.status !== 200) {
-            console.log(response.status)
-            this.setLinkDead(href, link)
+            this.setLinkDead(href, link, ' - status: ' + response.status)
           } else {
-            console.log(href + ' ' + response.status)
+            //console.log(href + ' ' + response.status)
             this.updateFetchCache(href, true)
           }
         })
@@ -126,8 +130,8 @@ export default class BetterAdminUi {
     })
   }
 
-  setLinkDead(href, link) {
-    console.log('-- Dead Link', href, link)
+  setLinkDead(href, link, msg = '') {
+    console.log('-- Dead Link - ' + msg, href, link)
     link.classList.add('dead-link')
     link.title = 'Le lien est mort'
     this.updateFetchCache(href, false)

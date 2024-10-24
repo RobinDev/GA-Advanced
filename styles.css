@@ -12,10 +12,15 @@ input[data-drupal-selector='edit-submit']:not(.region-sticky input) {
 
 /** DeadLink */
 .dead-link {
-  background-color: #dc2626;
-  color: white;
+  background-color: #dc2626 !important;
+  border: 3px solid #f87171 !important;
+  color: white !important;
   font-weight: bold;
-  text-decoration: underline;
+  text-decoration: none;
+}
+.dead-link img {
+  filter: sepia(1) saturate(5) hue-rotate(-50deg);
+  border: 4px solid #f87171 !important;
 }
 .to-obf-link {
   background-color: #c026d3;
