@@ -12,7 +12,13 @@ input[data-drupal-selector='edit-submit']:not(.region-sticky input) {
 
 /** DeadLink */
 .dead-link {
-  background-color: red;
+  background-color: #dc2626;
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.to-obf-link {
+  background-color: #c026d3;
   color: white;
   font-weight: bold;
   text-decoration: underline;

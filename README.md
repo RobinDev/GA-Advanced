@@ -23,3 +23,4 @@
 - [FrontEnd] Hide the toolbar except _Raccourcis_
 - [Backend] Always show the save button fixed at bottom-left
 - [BackEnd] MultiSeledt Resizable
+- showDeadLinks : find every links on the page, even obfuscate, even on admin side, test it like a disconnected user and show them in red

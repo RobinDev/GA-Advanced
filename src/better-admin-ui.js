@@ -45,10 +45,34 @@ export default class BetterAdminUi {
       if (href.includes('/comment/reply/')) return
       if (href.includes('/node/add/')) return
       if (!href.startsWith('http')) return
+      if (href.endsWith('/update.php')) return
       if (href.endsWith('/add')) return
       if (href.endsWith('/edit')) return
       if (href.endsWith('/delete')) return
       if (href.endsWith('/translations')) return
+
+      if (
+        href.includes('activite=') ||
+        href.includes('saisons=') ||
+        href.includes('duree=') ||
+        href.includes('thematique=') ||
+        href.includes('niveau=') ||
+        href.includes('itinerance=') ||
+        href.includes('voyage=')
+      ) {
+        if (!(link.classList.contains('obf') || link.title === 'obf')) {
+          console.log('-- To Obfuscate', href, link)
+          link.classList.add('to-obf-link')
+          link.title = 'liens à obfusquer'
+        }
+      }
+
+      if (href.includes('destination_selected') || href.includes('activites%5B81%5D')) {
+        console.log('-- Dead Link', href, link)
+        link.classList.add('dead-link')
+        link.title = "Les filtres datent de l'ancienne version et ne sont plus valide"
+        return
+      }
 
       fetch(href, {
         method: 'HEAD',
@@ -58,11 +82,13 @@ export default class BetterAdminUi {
           if (response.status >= 300 && response.status < 600) {
             console.log('-- Dead Link', href, link)
             link.classList.add('dead-link')
+            link.title = 'Le lien est mort'
           }
         })
         .catch((error) => {
           console.log('-- Dead Link', href, link)
           link.classList.add('dead-link')
+          link.title = 'Le lien est mort'
         })
     })
   }
