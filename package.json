@@ -9,5 +9,8 @@
     "eslint-plugin-unicorn": "^56.0.0",
     "globals": "^15.11.0",
     "prettier": "^3.3.3"
+  },
+  "dependencies": {
+    "htmx.org": "^1.9.12"
   }
 }

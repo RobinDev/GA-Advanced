@@ -84,8 +84,6 @@ export default class BetterAdminUi {
       if (href.includes('/revisions')) return
       if (href.includes('/translations')) return
 
-      console.log(href)
-
       if (
         !document.URL.includes('/admin/structure/menu') &&
         ['activite=', 'saisons=', 'duree=', 'thematique=', 'niveau=', 'itinerance=', 'voyage='].some((keyword) => href.includes(keyword)) &&
@@ -105,7 +103,6 @@ export default class BetterAdminUi {
 
       const fetchCache = await this.fetchCache(href)
       if (fetchCache && fetchCache === true) {
-        console.log(fetchCache)
         return // on ne check pas les URLs qui fonctionnaient il y a moins de 24h
       }
 

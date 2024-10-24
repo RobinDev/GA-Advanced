@@ -27,6 +27,8 @@ input[data-drupal-selector='edit-submit']:not(.region-sticky input) {
 /** [BackEnd] MultiSeledt Resizable */
 select[multiple] {
   resize: both;
+  min-width: 100%;
+  height: 250px;
 }
 
 /** [FrontEnd] Hide the toolbar except *Raccourcis* */

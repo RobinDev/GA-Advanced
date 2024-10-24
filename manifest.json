@@ -14,7 +14,7 @@
   "web_accessible_resources": [
     {
       "matches": ["<all_urls>"],
-      "resources": ["src/*"]
+      "resources": ["dist/*", "src/*", "dist/htmx.js", "node_modules/htmx.org/dist/htmx.js", "./../node_modules/htmx.org/dist/htmx.js"]
     }
   ],
   "background": {
