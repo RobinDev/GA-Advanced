@@ -48,12 +48,13 @@ export default class BetterAdminUi {
       if (href.includes('/comment/reply/')) return
       if (href.includes('/node/add/')) return
       if (!href.startsWith('http')) return
-      if (href.endsWith('/update.php')) return
-      if (href.endsWith('/add')) return
-      if (href.endsWith('/edit')) return
-      if (href.endsWith('/delete')) return
-      if (href.endsWith('/revisions')) return
-      if (href.endsWith('/translations')) return
+      if (href.includes('/update.php')) return
+      if (href.includes('/add')) return
+      if (href.includes('/votes')) return
+      if (href.includes('/edit')) return
+      if (href.includes('/delete')) return
+      if (href.includes('/revisions')) return
+      if (href.includes('/translations')) return
 
       if (
         !document.URL.includes('/admin/structure/menu') &&
