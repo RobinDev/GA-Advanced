@@ -27,8 +27,22 @@ export default class BetterAdminUi {
     })
   }
 
+  fetchCacheExpiry = 24 * 60 * 60 * 1000
+
   async fetchCache(url) {
-    return ((await chrome.storage.local.get(['fetchCache'])).fetchCache || {})[url]
+    const result = await chrome.storage.local.get(['fetchCache', 'fetchCacheTimestamp'])
+    const fetchCache = result.fetchCache || {}
+    const timestamp = result.fetchCacheTimestamp || 0
+
+    // Check if the cache has expired
+    const now = Date.now()
+    if (now - timestamp > this.fetchCacheExpiry) {
+      console.log('-- reset fetchCache')
+      await chrome.storage.local.set({ fetchCache: {}, fetchCacheTimestamp: now })
+      return null
+    }
+
+    return fetchCache[url]
   }
 
   updateFetchCache(url, status) {
@@ -86,9 +100,8 @@ export default class BetterAdminUi {
       }
 
       const fetchCache = await this.fetchCache(href)
-      if (fetchCache) {
-        if (fetchCache === false) link.classList.add('dead-link')
-        return
+      if (fetchCache && fetchCache === true) {
+        return // on ne check pas les URLs qui fonctionnaient il y a moins de 24h
       }
 
       fetch(href, {
