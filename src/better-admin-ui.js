@@ -64,6 +64,8 @@ export default class BetterAdminUi {
       href = link.href.split('#')[0]
       if (!(href.includes('grandangle.fr') || href.includes('grandangle2023') || href.includes('grandangletours.com'))) return
       if (href.includes('facebook.com')) return
+      if (href.includes('/webmaster/')) return
+      if (href.includes('/user/')) return
       if (href.includes('/product/')) return
       if (href.includes('/token/')) return
       if (href.includes('/run-cron')) return
@@ -109,7 +111,7 @@ export default class BetterAdminUi {
 
       fetch(href, {
         method: 'HEAD',
-        redirect: link.getAttribute('data-entity-substitution') ? 'follow' : 'manual',
+        redirect: link.getAttribute('data-entity-substitution') ? 'follow' : 'manual', // gère les liens dans l'admin qui sont remplacés par Drupal
         credentials: 'omit', // Empêche l'envoi des cookies, comme si on était déconnecté
       })
         .then((response) => {
