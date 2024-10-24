@@ -44,6 +44,7 @@ export default class BetterAdminUi {
       if (href.includes('/admin')) return
       if (href.includes('/comment/reply/')) return
       if (href.includes('/node/add/')) return
+      if (href.includes('#comments')) return
       if (!href.startsWith('http')) return
       if (href.endsWith('/update.php')) return
       if (href.endsWith('/add')) return
