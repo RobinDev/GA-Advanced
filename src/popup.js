@@ -21,8 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
       const tab = tabs[0]
       const state = enabledSwitcherInput.checked ? true : false
-      if (enabledSwitcherInput.checked) chrome.storage.local.set({ isEnabled: true })
-      else chrome.storage.local.set({ isEnabled: true })
+      if (enabledSwitcherInput.checked) {
+        chrome.storage.local.set({ isEnabled: true })
+        chrome.storage.local.set({ linkCache: {} })
+      } else chrome.storage.local.set({ isEnabled: false })
       chrome.tabs.reload(tab.id)
     })
   })

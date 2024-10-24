@@ -27,11 +27,23 @@ export default class BetterAdminUi {
     })
   }
 
+  async fetchCache(url) {
+    return ((await chrome.storage.local.get(['fetchCache'])).fetchCache || {})[url]
+  }
+
+  updateFetchCache(url, status) {
+    chrome.storage.local.get(['fetchCache'], (result) => {
+      const fetchCache = result.fetchCache || {}
+      fetchCache[url] = status
+      chrome.storage.local.set({ fetchCache: fetchCache })
+    })
+  }
+
   showDeadLinks() {
     // Sélectionner tous les liens sur la page
     const links = document.querySelectorAll('a')
 
-    links.forEach((link) => {
+    links.forEach(async (link) => {
       let href = link.href
       if (!href) return
       if (href.includes('#comments')) return
@@ -73,23 +85,31 @@ export default class BetterAdminUi {
         return
       }
 
+      const fetchCache = await this.fetchCache(href)
+      if (fetchCache) {
+        if (fetchCache === false) link.classList.add('dead-link')
+        return
+      }
+
       fetch(href, {
         method: 'HEAD',
         credentials: 'omit', // Empêche l'envoi des cookies, comme si on était déconnecté
       })
         .then((response) => {
-          if (response.status >= 300 && response.status < 600) {
-            console.log('-- Dead Link', href, link)
-            link.classList.add('dead-link')
-            link.title = 'Le lien est mort'
-          }
+          if (response.status >= 300 && response.status < 600) this.setLinkDead(href, link)
+          else this.updateFetchCache(href, true)
         })
         .catch((error) => {
-          console.log('-- Dead Link', href, link)
-          link.classList.add('dead-link')
-          link.title = 'Le lien est mort'
+          this.setLinkDead(href, link)
         })
     })
+  }
+
+  setLinkDead(href, link) {
+    console.log('-- Dead Link', href, link)
+    link.classList.add('dead-link')
+    link.title = 'Le lien est mort'
+    this.updateFetchCache(href, false)
   }
 
   switcher() {

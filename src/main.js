@@ -10,7 +10,7 @@ export function run() {
   chrome.storage.local.get('isEnabled', (data) => {
     const isEnabled = data.isEnabled
     if (isEnabled) {
-      console.log('init')
+      console.log('init ' + isEnabled)
       return window.addEventListener('load', init, false)
     }
     console.log('Do Nothing')
