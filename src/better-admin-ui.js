@@ -32,11 +32,14 @@ export default class BetterAdminUi {
     const links = document.querySelectorAll('a')
 
     links.forEach((link) => {
-      const href = link.href
+      let href = link.href
       if (!href) return
+      if (href.includes('#comments')) return
+      href = link.href.split('#')[0]
       if (!(href.includes('grandangle.fr') || href.includes('grandangle2023') || href.includes('grandangletours.com'))) return
       if (href.includes('facebook.com')) return
       if (href.includes('/product/')) return
+      if (href.includes('/token/')) return
       if (href.includes('/run-cron')) return
       if (href.includes('/media/')) return
       if (href.includes('/devel/')) return
@@ -44,28 +47,22 @@ export default class BetterAdminUi {
       if (href.includes('/admin')) return
       if (href.includes('/comment/reply/')) return
       if (href.includes('/node/add/')) return
-      if (href.includes('#comments')) return
       if (!href.startsWith('http')) return
       if (href.endsWith('/update.php')) return
       if (href.endsWith('/add')) return
       if (href.endsWith('/edit')) return
       if (href.endsWith('/delete')) return
+      if (href.endsWith('/revisions')) return
       if (href.endsWith('/translations')) return
 
       if (
-        href.includes('activite=') ||
-        href.includes('saisons=') ||
-        href.includes('duree=') ||
-        href.includes('thematique=') ||
-        href.includes('niveau=') ||
-        href.includes('itinerance=') ||
-        href.includes('voyage=')
+        !document.URL.includes('/admin/structure/menu') &&
+        ['activite=', 'saisons=', 'duree=', 'thematique=', 'niveau=', 'itinerance=', 'voyage='].some((keyword) => href.includes(keyword)) &&
+        !(link.classList.contains('obf') || link.title === 'obf')
       ) {
-        if (!(link.classList.contains('obf') || link.title === 'obf')) {
-          console.log('-- To Obfuscate', href, link)
-          link.classList.add('to-obf-link')
-          link.title = 'liens à obfusquer'
-        }
+        console.log('-- To Obfuscate', href, link)
+        link.classList.add('to-obf-link')
+        link.title = 'liens à obfusquer'
       }
 
       if (href.includes('destination_selected') || href.includes('activites%5B81%5D')) {
