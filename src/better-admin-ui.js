@@ -56,10 +56,12 @@ export default class BetterAdminUi {
       })
         .then((response) => {
           if (response.status >= 300 && response.status < 600) {
+            console.log('-- Dead Link', href, link)
             link.classList.add('dead-link')
           }
         })
         .catch((error) => {
+          console.log('-- Dead Link', href, link)
           link.classList.add('dead-link')
         })
     })
