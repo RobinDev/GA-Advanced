@@ -10,6 +10,14 @@ input[data-drupal-selector='edit-submit']:not(.region-sticky input) {
   z-index: 9999999999;
 }
 
+/** DeadLink */
+.dead-link {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 /** [BackEnd] MultiSeledt Resizable */
 select[multiple] {
   resize: both;

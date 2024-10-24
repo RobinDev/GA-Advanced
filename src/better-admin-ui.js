@@ -5,6 +5,7 @@ export default class BetterAdminUi {
   constructor() {
     this.unobfuscate()
     if (document.querySelector('table#menu-overview tbody tr')) new MenuManagerBeautifer()
+    this.showDeadLinks()
   }
 
   /**
@@ -23,6 +24,44 @@ export default class BetterAdminUi {
       link.setAttribute('title', 'obf')
       link.setAttribute('href', atob(href))
       element.replaceWith(link)
+    })
+  }
+
+  showDeadLinks() {
+    // Sélectionner tous les liens sur la page
+    const links = document.querySelectorAll('a')
+
+    links.forEach((link) => {
+      const href = link.href
+      if (!href) return
+      if (!(href.includes('grandangle.fr') || href.includes('grandangle2023') || href.includes('grandangletours.com'))) return
+      if (href.includes('facebook.com')) return
+      if (href.includes('/product/')) return
+      if (href.includes('/run-cron')) return
+      if (href.includes('/media/')) return
+      if (href.includes('/devel/')) return
+      if (href.includes('/ajax/')) return
+      if (href.includes('/admin')) return
+      if (href.includes('/comment/reply/')) return
+      if (href.includes('/node/add/')) return
+      if (!href.startsWith('http')) return
+      if (href.endsWith('/add')) return
+      if (href.endsWith('/edit')) return
+      if (href.endsWith('/delete')) return
+      if (href.endsWith('/translations')) return
+
+      fetch(href, {
+        method: 'HEAD',
+        credentials: 'omit', // Empêche l'envoi des cookies, comme si on était déconnecté
+      })
+        .then((response) => {
+          if (response.status >= 300 && response.status < 600) {
+            link.classList.add('dead-link')
+          }
+        })
+        .catch((error) => {
+          link.classList.add('dead-link')
+        })
     })
   }
 
