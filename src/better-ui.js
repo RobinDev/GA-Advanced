@@ -15,6 +15,7 @@ export default class BetterUi {
   unobfuscate() {
     const attribute = 'data-obf'
     document.querySelectorAll('span[data-obf]').forEach((element) => {
+      if (element.classList.contains('dropdown-toggle')) return
       let link = document.createElement('a')
       let href = element.getAttribute(attribute)
       element.removeAttribute(attribute)
