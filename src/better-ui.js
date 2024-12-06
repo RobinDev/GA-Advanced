@@ -7,6 +7,13 @@ export default class BetterUi {
     this.unobfuscate()
     if (document.querySelector('table#menu-overview tbody tr')) new MenuManagerBeautifer()
     this.showDeadLinks()
+    this.adminImageInEditorBeautifier()
+  }
+
+  adminImageInEditorBeautifier() {
+    document.querySelectorAll('[contenteditable="true"] figure').forEach((figure) => {
+      getHTMLElement(figure).style.height = null // Unset the height style
+    })
   }
 
   /**

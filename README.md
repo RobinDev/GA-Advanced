@@ -25,3 +25,4 @@
 - [BackEnd] MultiSeledt Resizable
 - **showDeadLinks** : find every links on the page, even obfuscate, even on admin side, test it like a disconnected user and show them in red
 - **showLinkToObfuscate** : mainly those with a search filter in the url
+- [BackEnd] Avoid image vomito

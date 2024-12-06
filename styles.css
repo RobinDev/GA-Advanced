@@ -102,3 +102,9 @@ body.toolbar-fixed .fixed-style {
   width: calc(100vw - 75px);
   z-index: 99999999999;
 }
+
+/** [Backend] Avoid image kill the view */
+[contenteditable='true'] figure {
+  max-width: 50vw !important;
+  height: unset !important;
+}
